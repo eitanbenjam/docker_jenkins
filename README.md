@@ -1,6 +1,9 @@
 # docker_jenkins
-This code will start docker-registy and build jenkins as docker conainer.
-The conteneraized jenkins will have a multi-branch job that will perform ci to githab repositoy:https://github.com/eitanbenjam/tikal_eitan_exam.git
+# repository goal
+perform CI (compile,build test and deploy) on https://github.com/eitanbenjam/tikal_eitan_exam.git repository.
+
+This code will start docker-registry and build jenkins as docker container.
+The containerized jenkins will have a multi-branch job that will perform ci to GitHab repository:https://github.com/eitanbenjam/tikal_eitan_exam.git
 
 
 ## Installation
@@ -10,7 +13,7 @@ in order to run the docker_jenkins server u need to perform the following steps:
 ```
 git clone https://github.com/eitanbenjam/docker_jenkins.git
 ```
-2. after repository cloned to your filesystem, we need to start docker-regitry container
+2. after repository cloned to your filesystem, we need to start docker-registry container
 ```
 cd docker_jenkins
 . start_docker_register.sh
@@ -39,12 +42,12 @@ check that docker image was created by running the command:
 ```
    jenkins                        eitan               255d0f9befc4        29 seconds ago      760MB
 ```
-4. after docker image was build we can run it with the following commad:
+4. after docker image was build we can run it with the following command:
 ```
     jenkins_listen_port=9997  # the port number you want jenkins container to listen on
     . start_docker.sh
 ```
-this script will bring up the jenkins image that was created in the previos step called jenkins-eitan.
+this script will bring up the jenkins image that was created in the previous step called jenkins-eitan.
 check that jenkins container was created by running the command:
 ```
 docker ps|grep jenkins-eitan
@@ -59,10 +62,10 @@ the output should be:
 jenkins will come up with the following configuration:
 1. Global Pipeline Libraries - shared libraries that all jobs can use (located in local_git/jenkins_library/ on this repository)
 2. job called:multi_branch_nodejs_eitan - that job monitor https://github.com/eitanbenjam/tikal_eitan_exam.git repositry and run on every change
-   the job clone the https://github.com/eitanbenjam/tikal_eitan_exam.git reposiory, build a docker image, run it, test it and if all passed it will push it into docker-regisrty that was created on step 2.
+   the job clone the https://github.com/eitanbenjam/tikal_eitan_exam.git repository, build a docker image, run it, test it and if all passed it will push it into docker-registry that was created on step 2.
 
 # container parameters section
-jenkins container comes up with the folowing mounts:
+jenkins container comes up with the following mounts:
 1. ${local_folder}/local_git:/var/jenkins_home/local_git - mount the Global Pipeline Libraries src libraries
 2. ${local_folder}/xml_conf/org.jenkinsci.plugins.workflow.libs.GlobalLibraries.xml - mount the Global Pipeline Libraries configuration
 3. ${local_folder}/xml_conf/jobs/multi_branch_nodejs_eitan/config.xml - mount the multi_branch_nodejs_eitan job
@@ -70,3 +73,5 @@ jenkins container comes up with the folowing mounts:
 5. ${local_folder}/xml_conf/org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml : define docker binary (jenkins will download from internet on first time)
 6. ${local_folder}/xml_conf/scriptApproval.xml - disable docker security so jenkins container can run docker command on host.
 
+# GitHub integration
+because that solution should run on on private networks, github cant trigger a job by itself , in order to perform CI , jenkins scan every 1 minute github repository to check if something changed , in case a change was done , jenkins it-self trigger the job.
