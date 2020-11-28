@@ -12,6 +12,7 @@ git clone https://github.com/eitanbenjam/docker_jenkins.git
 ```
 2. after repository cloned to your filesystem, we need to start docker-regitry container
 ```
+cd docker_jenkins
 . start_docker_register.sh
 ```
 this script will start docker-registry container on port 5000
@@ -27,7 +28,6 @@ d1b2dc610241        registry:2          "/entrypoint.sh /etc…"   About a minut
 
 3. after docker-registry container started we need to build the jenkins docker image on out docker
 ```
-   cd docker_jenkins
    . build_docker.sh
 ```
 this script will create a docker images named:jenkins:eitan
