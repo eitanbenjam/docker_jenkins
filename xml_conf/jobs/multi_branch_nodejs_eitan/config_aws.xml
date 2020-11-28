@@ -1,8 +1,60 @@
 <?xml version='1.1' encoding='UTF-8'?>
 <flow-definition plugin="workflow-job@2.40">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.7.2"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.7.2">
+      <jobProperties/>
+      <triggers/>
+      <parameters>
+        <string>registry_server</string>
+        <string>component_name</string>
+        <string>check_response</string>
+      </parameters>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
   <description></description>
   <keepDependencies>false</keepDependencies>
-  <properties/>
+  <properties>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <org.jenkinsci.plugins.gwt.GenericTrigger plugin="generic-webhook-trigger@1.72">
+          <spec></spec>
+          <regexpFilterText></regexpFilterText>
+          <regexpFilterExpression></regexpFilterExpression>
+          <printPostContent>false</printPostContent>
+          <printContributedVariables>false</printContributedVariables>
+          <causeString>Generic Cause</causeString>
+          <token>AaabBbccCddde0505144943</token>
+          <tokenCredentialId></tokenCredentialId>
+          <silentResponse>false</silentResponse>
+          <overrideQuietPeriod>false</overrideQuietPeriod>
+        </org.jenkinsci.plugins.gwt.GenericTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>component_name</name>
+          <description>component name for docker image</description>
+          <defaultValue>eitan-nodejs</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>registry_server</name>
+          <description>registy url</description>
+          <defaultValue>127.0.0.1:5000</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>check_response</name>
+          <description>response when checking keep alive</description>
+          <defaultValue>OK</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.86">
     <scm class="hudson.plugins.git.GitSCM" plugin="git@4.4.5">
       <configVersion>2</configVersion>
